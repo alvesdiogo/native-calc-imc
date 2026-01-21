@@ -51,6 +51,11 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: '#FF0043',
   },
+
+  exhibitionResultImc: {
+    width: '100%',
+    height: '50%',
+  },
 });
 
 export default styles;

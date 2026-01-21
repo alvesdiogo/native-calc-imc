@@ -50,35 +50,42 @@ export default function Form() {
   }
 
   return (
-    <Pressable onPress={Keyboard.dismiss} style={styles.form}>
-      <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Altura:</Text>
-          <TextInput
-            onChangeText={setHeight}
-            value={height}
-            placeholder='Ex. 1.75'
-            keyboardType='numeric'
-            style={styles.input}></TextInput>
-          <Text style={styles.errorMessage}>{errorMessage}</Text>
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Peso:</Text>
-          <TextInput
-            onChangeText={setWeight}
-            value={weight}
-            placeholder='Ex. 75.5'
-            keyboardType='numeric'
-            style={styles.input}></TextInput>
-          <Text style={styles.errorMessage}>{errorMessage}</Text>
-        </View>
+    <View style={styles.form}>
+      {imc == null ? (
+        <Pressable onPress={Keyboard.dismiss} style={styles.container}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Altura:</Text>
+            <TextInput
+              onChangeText={setHeight}
+              value={height}
+              placeholder='Ex. 1.75'
+              keyboardType='numeric'
+              style={styles.input}></TextInput>
+            <Text style={styles.errorMessage}>{errorMessage}</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Peso:</Text>
+            <TextInput
+              onChangeText={setWeight}
+              value={weight}
+              placeholder='Ex. 75.5'
+              keyboardType='numeric'
+              style={styles.input}></TextInput>
+            <Text style={styles.errorMessage}>{errorMessage}</Text>
+          </View>
 
-        <TouchableOpacity style={styles.button} onPress={() => validationImc()}>
-          <Text style={styles.buttonText}>{textButton}</Text>
-        </TouchableOpacity>
-
-        <ResultImc result={imc} message={message} />
-      </View>
-    </Pressable>
+          <TouchableOpacity style={styles.button} onPress={() => validationImc()}>
+            <Text style={styles.buttonText}>{textButton}</Text>
+          </TouchableOpacity>
+        </Pressable>
+      ) : (
+        <View style={styles.exhibitionResultImc}>
+          <ResultImc message={message} result={imc} />
+          <TouchableOpacity style={styles.button} onPress={() => validationImc()}>
+            <Text style={styles.buttonText}>{textButton}</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </View>
   );
 }
