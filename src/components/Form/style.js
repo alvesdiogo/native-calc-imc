@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     paddingTop: 20,
-    paddingBottom: 20,
     justifyContent: 'left',
     alignItems: 'flex-start',
   },
@@ -40,6 +39,7 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 40,
   },
   buttonText: {
     fontSize: 16,

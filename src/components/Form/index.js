@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Vibration } from 'react-native';
 import ResultImc from './ResultImc';
 import { useState } from 'react';
 import styles from './style';
@@ -7,16 +7,17 @@ export default function Form() {
   const [height, setHeight] = useState(null);
   const [weight, setWeight] = useState(null);
   const [message, setMessage] = useState('Preencha o peso e altura');
-  const [result, setResult] = useState(null);
+  const [imc, setImc] = useState(null);
   const [textButton, setTextButton] = useState('Calcular IMC');
   const [errorMessage, setErrorMessage] = useState(null);
 
   function imcCalculator() {
-    return setResult((weight / (height * height)).toFixed(2));
+    return setImc((weight / (height * height)).toFixed(2));
   }
 
   function verificationImc() {
-    if (result == null) {
+    if (imc == null) {
+      Vibration.vibrate();
       setErrorMessage('Campo obrigatório*');
       return;
     }
@@ -34,7 +35,7 @@ export default function Form() {
     }
 
     verificationImc();
-    setResult(null);
+    setImc(null);
     setTextButton('Calcular');
     setMessage('Preencha o peso e altura');
   }
@@ -66,7 +67,7 @@ export default function Form() {
         <Text style={styles.buttonText}>{textButton}</Text>
       </TouchableOpacity>
 
-      <ResultImc result={result} message={message} />
+      <ResultImc result={imc} message={message} />
     </View>
   );
 }
