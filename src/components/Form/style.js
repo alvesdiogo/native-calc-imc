@@ -1,20 +1,21 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
+  form: {
+    flex: 1,
     backgroundColor: '#FFFFFF',
+    width: '100%',
     height: '100%',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 16,
+    paddingTop: 40,
   },
-  form: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+  container: {
+    width: '100%',
+    height: '100%',
   },
   inputContainer: {
-    paddingTop: 20,
     justifyContent: 'left',
     alignItems: 'flex-start',
   },
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 40,
+    marginTop: 20,
   },
   buttonText: {
     fontSize: 16,
