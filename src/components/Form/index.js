@@ -20,13 +20,71 @@ export default function Form() {
   const [textButton, setTextButton] = useState('Calcular IMC');
   const [errorMessage, setErrorMessage] = useState(null);
   const [imcList, setImcList] = useState([]);
+  const [messageResult, setMessageResult] = useState();
+
+  console.log(height)
+
+  const formatAltura = (text) => {
+    const onlyNumbers = text.replace(/\D/g, '');
+
+    if (!onlyNumbers) {
+      return '';
+    }
+
+    const number = Number(onlyNumbers) / 100;
+
+    return number.toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
+  const formatPeso = (text) => {
+    const onlyNumbers = text.replace(/\D/g, '');
+
+    if (!onlyNumbers) {
+      return '';
+    }
+
+    const number = Number(onlyNumbers) / 10;
+
+    return number.toLocaleString('pt-BR', {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    });
+  };
 
   function imcCalculator() {
-    let heightFormat = height.replace(',', '.');
-    let totalImc = (weight / (heightFormat * heightFormat)).toFixed(2);
-    setImcList((arr) => [...arr, { id: new Date().getTime(), imc: totalImc }]);
+    const heightNumber = Number(height.replace(',', '.'));
+    const weightNumber = Number(weight.replace(',', '.'));
+
+    if (!heightNumber || !weightNumber) {
+      setErrorMessage('Preencha corretamente peso e altura');
+      return;
+    }
+
+    const totalImc = (weightNumber / (heightNumber * heightNumber)).toFixed(2);
+
+    setImcList((arr) => [
+      ...arr,
+      { id: new Date().getTime().toString(), imc: totalImc },
+    ]);
+
     setImc(totalImc);
+
+    if (totalImc < 18.5) {
+      setMessageResult('Abaixo do peso');
+    } else if (totalImc < 25) {
+      setMessageResult('Com peso normal');
+    } else if (totalImc < 30) {
+      setMessageResult('Acima do peso');
+    } else if (totalImc < 40) {
+      setMessageResult('Obeso');
+    } else {
+      setMessageResult('Obesidade grave');
+    }
   }
+
 
   function verificationImc() {
     if (imc == null) {
@@ -60,7 +118,7 @@ export default function Form() {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Altura:</Text>
             <TextInput
-              onChangeText={setHeight}
+              onChangeText={(text) => {setHeight(formatAltura(text))}}
               value={height}
               placeholder='Ex. 1.75'
               keyboardType='numeric'
@@ -70,7 +128,7 @@ export default function Form() {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Peso:</Text>
             <TextInput
-              onChangeText={setWeight}
+              onChangeText={(text) => {setWeight(formatPeso(text))}}
               value={weight}
               placeholder='Ex. 75.5'
               keyboardType='numeric'
@@ -84,7 +142,7 @@ export default function Form() {
         </Pressable>
       ) : (
         <View style={styles.exhibitionResultImc}>
-          <ResultImc message={message} result={imc} />
+          <ResultImc message={message} result={imc} messageResult={messageResult} />
           <TouchableOpacity style={styles.button} onPress={() => validationImc()}>
             <Text style={styles.buttonText}>{textButton}</Text>
           </TouchableOpacity>
