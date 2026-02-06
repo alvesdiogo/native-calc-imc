@@ -11,6 +11,7 @@ import {
 import ResultImc from './ResultImc';
 import { useState } from 'react';
 import styles from './style';
+import ListImcs from './ListImcs';
 
 export default function Form() {
   const [height, setHeight] = useState(null);
@@ -21,8 +22,6 @@ export default function Form() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [imcList, setImcList] = useState([]);
   const [messageResult, setMessageResult] = useState();
-
-  console.log(height)
 
   const formatAltura = (text) => {
     const onlyNumbers = text.replace(/\D/g, '');
@@ -97,7 +96,6 @@ export default function Form() {
   function validationImc() {
     if (height != null || weight != null) {
       imcCalculator();
-      console.log('imc', imc);
       setHeight(null);
       setWeight(null);
       setMessage('Seu imc é igual:');
@@ -148,23 +146,7 @@ export default function Form() {
           </TouchableOpacity>
         </View>
       )}
-      <FlatList
-        style={styles.listImcs}
-        data={[...imcList].reverse()}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item, index }) => {
-          const isLast = index === 0;
-
-          return (
-            <Text style={styles.resultImcItem}>
-              <Text style={styles.textResultItemList}>
-                {isLast ? 'Resultado atual IMC = ' : `${index + 1}° Resultado IMC = `}
-              </Text>
-              {item.imc}
-            </Text>
-          );
-        }}
-      />
+      <ListImcs data={imcList} />
     </View>
   );
 }
